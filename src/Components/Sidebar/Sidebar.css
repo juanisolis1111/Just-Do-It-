@@ -1,0 +1,22 @@
+aside {
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+
+aside ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+aside li {
+  margin-bottom: 10px;
+}
+
+aside a {
+  color: #333;
+  text-decoration: none;
+}
+
+aside a:hover {
+  text-decoration: underline;
+}
