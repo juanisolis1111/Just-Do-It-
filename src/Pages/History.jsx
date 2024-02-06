@@ -1,16 +1,15 @@
-const History = ({ deletedItems }) => {
+import ListItem from "../components/ListItem/ListItem";
+
+const History = () => {
+  const savedList = JSON.parse(localStorage.getItem("toDoList")) || [];
   return (
     <div>
       <h1>Deleted Items</h1>
-      {/* {deletedItems.length === 0 ? (
-          <p>No items have been deleted.</p>
-        ) : (
-          <ul>
-            {deletedItems.map((item) => (
-              <li key={item.id}>{item.text}</li>
-            ))}
-          </ul>
-        )} */}
+      {savedList.map((item) => {
+        if (item.isDeleted === true) {
+          return <ListItem key={item.id} item={item} />;
+        }
+      })}
     </div>
   );
 };

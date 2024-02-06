@@ -4,8 +4,12 @@ const ListItem = ({ item, onDelete }) => {
   return (
     <div>
       <div>{item.text}</div>
-      {item.isCompleted && <span> - Completed</span>}
-      <button onClick={() => onDelete(item.id)}>Delete</button>
+
+      {!item.isDeleted && (
+        <>
+          <button onClick={() => onDelete(item.id)}>Delete</button>
+        </>
+      )}
     </div>
   );
 };

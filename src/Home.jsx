@@ -1,26 +1,37 @@
 import { useState } from "react";
-import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/Footer/Footer";
-import Sidebar from "./Components/Sidebar/Sidebar";
 import List from "./Components/List/List";
 import AddItemForm from "./Components/AddItemForm/AddItemForm";
 import UpdateItemForm from "./Components/UpdateItemForm/UpdateItemForm";
 
 const Home = () => {
-  const [data, setData] = useState([]);
+  const savedList = JSON.parse(localStorage.getItem("toDoList")) || [];
+  const [data, setData] = useState(savedList);
 
   const handleAddItem = (text) => {
     console.log("handleAddItem", text);
     const newItem = {
-      id: data.length + 1,
+      id: Date.now(),
       text,
       isCompleted: false,
+      isDeleted: false,
     };
-    console.log("[...data, newItem]", [...data, newItem]);
+    localStorage.setItem("toDoList", JSON.stringify([...data, newItem]));
     setData([...data, newItem]);
   };
 
   const handleUpdateItem = (id, newText) => {
+    localStorage.setItem(
+      "toDoList",
+      JSON.stringify(
+        data.map((item) => {
+          if (item.id === id) {
+            return { ...item, text: newText };
+          }
+          return item;
+        })
+      )
+    );
     setData(
       data.map((item) => {
         if (item.id === id) {
@@ -32,13 +43,29 @@ const Home = () => {
   };
 
   const handleDeleteItem = (id) => {
-    setData(data.filter((item) => item.id !== id));
+    localStorage.setItem(
+      "toDoList",
+      JSON.stringify(
+        data.map((item) => {
+          if (item.id === id) {
+            return { ...item, isDeleted: true };
+          }
+          return item;
+        })
+      )
+    );
+    setData(
+      data.map((item) => {
+        if (item.id === id) {
+          return { ...item, isDeleted: true };
+        }
+        return item;
+      })
+    );
   };
 
   return (
     <div>
-      <Navbar />
-      <Sidebar />
       <div>
         <h1>Welcome to the beginning of productivity!</h1>
         <AddItemForm onAdd={(text) => handleAddItem(text)} />
